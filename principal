@@ -134,6 +134,34 @@ def medidas_de_inf():
             print('Valor invalido')
 
 
+def bases():
+    num_original = str(input('Digite o numero que sera convertido: '))
+    base_original = int(input('Digite a base original: '))
+    base_final = int(input('Digite a base para qual sera convertido: '))
+    caracteres = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+           'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    decimal = 0
+    aux = list(num_original)
+    aux.reverse()
+    for x, i in enumerate(aux):
+        decimal += caracteres.index(i) * base_original ** x
+    if base_final == 10:
+        print('O numero em decimal e: ', decimal)
+    else:
+        aux1 = []
+        numero_final = ''
+        while True:
+            temp_numero_final = decimal % base_final
+            aux1.append(temp_numero_final)
+            if int(decimal / base_final) == 0:
+                break
+            decimal = int(decimal / base_final)
+        aux1.reverse()
+        for i in aux1:
+            numero_final += caracteres[i]
+        print('O numero final convertido e: ', numero_final)
+
+
 def somabinarios():
     a = str(input('Digite o primeiro numero: '))
     b = str(input('Digite o segundo numero: '))
@@ -145,29 +173,39 @@ def somabinarios():
     print(bin(soma)[2:])
 
 
-
-#main
+# main
 menu = int(input('Digite 1 para converter medidas de informacao\n'
-                 'Digite 2 para somar binarios\n'
-                 'Digite 3 para sair: '))
-while menu != 3:
+                 'Digite 2 para converter bases numericas\n'
+                 'Digite 3 para somar numeros binarios\n'
+                 'Digite 4 para sair: '))
+while menu != 4:
     if menu == 1:
         medidas_de_inf()
         print('-----')
         menu = int(input('Digite 1 para converter medidas de informacao\n'
-                         'Digite 2 para somar binarios\n'
-                         'Digite 3 para sair: '))
+                         'Digite 2 para converter bases numericas\n'
+                         'Digite 3 para somar numeros binarios\n'
+                         'Digite 4 para sair: '))
     elif menu == 2:
+        bases()
+        print('-----')
+        menu = int(input('Digite 1 para converter medidas de informacao\n'
+                         'Digite 2 para converter bases numericas\n'
+                         'Digite 3 para somar numeros binarios\n'
+                         'Digite 4 para sair: '))
+    elif menu == 3:
         somabinarios()
         print('-----')
         menu = int(input('Digite 1 para converter medidas de informacao\n'
-                         'Digite 2 para somar binarios\n'
-                         'Digite 3 para sair: '))
-    elif menu == 3:
+                         'Digite 2 para converter bases numericas\n'
+                         'Digite 3 para somar numeros binarios\n'
+                         'Digite 4 para sair: '))
+    elif menu == 4:
         break
     else:
         print('Valor invalido')
         print('-----')
         menu = int(input('Digite 1 para converter medidas de informacao\n'
-                         'Digite 2 para somar binarios\n'
-                         'Digite 3 para sair: '))
+                         'Digite 2 para converter bases numericas\n'
+                         'Digite 3 para somar numeros binarios\n'
+                         'Digite 4 para sair: '))
