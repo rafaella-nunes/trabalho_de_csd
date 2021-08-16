@@ -1,3 +1,57 @@
+class Node:
+    data = None
+    next = None
+
+    def __init__(self, item):
+        self.item = item
+
+
+class Stack:
+    def __init__(self):
+        self.top = None
+        self._size = 0
+
+    def isEmpty(self):
+        return self._size == 0
+
+    def push(self, elem):
+        # insere um elemento na pilha
+        node = Node(elem)
+        node.next = self.top
+        self.top = node
+        self._size = self._size + 1
+
+    def pop(self):
+        # remove o elemento do topo da pilha
+        if self._size > 0:
+            node = self.top
+            self.top = self.top.next
+            self._size = self._size - 1
+            return node.data
+        raise IndexError("The stack is empty")
+
+    def peek(self):
+        # retorna o topo sem remover
+        if self._size > 0:
+            return self.top.data
+        raise IndexError("The stack is empty")
+
+    def __len__(self):
+        """Retorna o tamanho da lista"""
+        return self._size
+
+    def __repr__(self):
+        r = ""
+        pointer = self.top
+        while (pointer):
+            r = r + str(pointer.data) + "\n"
+            pointer = pointer.next
+        return r
+
+    def __str__(self):
+        return self.__repr__()
+
+
 def medidas_de_inf():
     print('Digite 1 para converter byte para outra unidade.')
     print('Digite 2 para converter kilobyte para outra unidade.')
@@ -227,13 +281,59 @@ def portas():
         print('opcao invalida')
 
 
+def validar():
+    expressao = str(input('Digite a expressao a ser validada: '))
+    pilha1 = Stack()
+    operadores = ['AND', 'OR', 'XOR', 'NAND', 'NOR']
+
+    # verificar se os parenteses estão na ordem e quantidade correta
+    for simbolo in expressao:
+        if simbolo == '(':
+            pilha1.push('(')
+        elif simbolo == ')':
+            if len(pilha1) > 0:
+                pilha1.pop()
+            else:
+                pilha1.push(')')
+                break
+
+    # verificar sintaxe, nao conseguimos fazer funcionar
+    expressao.upper()
+    dividir = expressao.split('(')
+    dividir = expressao.split(')')
+    cont = 0
+    validador = 0
+    for i in dividir:
+        if cont != 0:
+            op_anterior = dividir[cont - 1]
+
+            if i in operadores:
+                if op_anterior in operadores or op_anterior == 'NOT':
+                    print('Expressao invalida!')
+                    break
+                elif i in operadores and op_anterior in operadores:
+                    print('Expressao invalida')
+                    break
+                elif i == 'NOT' and op_anterior not in operadores:
+                    print('Expressao invalida')
+                    break
+            cont = cont + 1
+    validador = 0
+
+    if len(pilha1) == 0 and validador == 0:
+        print('Expressao valida')
+    else:
+        print('Expressao invalida')
+
+
 # main
 menu = int(input('Digite 1 para converter medidas de informacao\n'
                  'Digite 2 para converter bases numericas\n'
                  'Digite 3 para somar numeros binarios\n'
                  'Digite 4 para simular portas logicas\n'
-                 'Digite 5 para sair: '))
-while menu != 5:
+                 'Digite 5 para validar expressao\n'
+                 'Digite 6 para sair: '))
+while menu != 6:
     if menu == 1:
         medidas_de_inf()
         print('-----')
@@ -241,7 +341,8 @@ while menu != 5:
                          'Digite 2 para converter bases numericas\n'
                          'Digite 3 para somar numeros binarios\n'
                          'Digite 4 para simular portas logicas\n'
-                         'Digite 5 para sair: '))
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
     elif menu == 2:
         bases()
         print('-----')
@@ -249,7 +350,8 @@ while menu != 5:
                          'Digite 2 para converter bases numericas\n'
                          'Digite 3 para somar numeros binarios\n'
                          'Digite 4 para simular portas logicas\n'
-                         'Digite 5 para sair: '))
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
     elif menu == 3:
         somabinarios()
         print('-----')
@@ -257,7 +359,8 @@ while menu != 5:
                          'Digite 2 para converter bases numericas\n'
                          'Digite 3 para somar numeros binarios\n'
                          'Digite 4 para simular portas logicas\n'
-                         'Digite 5 para sair: '))
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
     elif menu == 4:
         portas()
         print('-----')
@@ -265,8 +368,18 @@ while menu != 5:
                          'Digite 2 para converter bases numericas\n'
                          'Digite 3 para somar numeros binarios\n'
                          'Digite 4 para simular portas logicas\n'
-                         'Digite 5 para sair: '))
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
     elif menu == 5:
+        validar()
+        print('-----')
+        menu = int(input('Digite 1 para converter medidas de informacao\n'
+                         'Digite 2 para converter bases numericas\n'
+                         'Digite 3 para somar numeros binarios\n'
+                         'Digite 4 para simular portas logicas\n'
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
+    elif menu == 6:
         break
     else:
         print('Valor invalido')
@@ -275,4 +388,5 @@ while menu != 5:
                          'Digite 2 para converter bases numericas\n'
                          'Digite 3 para somar numeros binarios\n'
                          'Digite 4 para simular portas logicas\n'
-                         'Digite 5 para sair: '))
+                         'Digite 5 para validar expressao\n'
+                         'Digite 6 para sair: '))
